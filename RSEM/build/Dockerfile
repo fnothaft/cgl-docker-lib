@@ -15,13 +15,10 @@ WORKDIR /
 RUN git clone https://github.com/deweylab/RSEM.git
 WORKDIR RSEM
 RUN make
-RUN mv rsem-calculate-expression ../
-RUN mv rsem_perl_utils.pm ../
 WORKDIR /
 
 #Cleaning up
-RUN rm -rf RSEM bowtie.zip bowtie2-2.2.5
+RUN rm -rf bowtie.zip bowtie2-2.2.5
 
-#ENTRYPOINT["./rsem-calculate-expression"]
 
 
