@@ -13,9 +13,6 @@ RUN mkdir /opt/apache-spark && \
 # put spark on path
 ENV PATH /opt/apache-spark/bin:$PATH
 
-# set spark worker port
-ENV SPARK_WORKER_PORT 7075
-
 # add worker runner
 ADD run-worker.sh .
 
