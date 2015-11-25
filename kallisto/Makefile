@@ -1,24 +1,25 @@
 # Definitions
-build_path = build
-runtime_path = runtime
-build_output = ${runtime_path}/kallisto
-runtime_fullpath = $(realpath ${runtime_path})
+build_output = runtime/kallisto
+runtime_fullpath = $(realpath runtime)
 build_tool = runtime-container.DONE
-build_number ?= none
-git_commit ?= $(shell git rev-parse HEAD)
+git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../kallisto | cut -f1 -d " ")
+name = quay.io/ucsc_cgl/kallisto
+tag = 0.42.4--${git_commit}
 
 # Steps
-all: ${build_output} ${build_tool}
-
-${build_output}: ${build_path}/Dockerfile
-	cd ${build_path} && docker build -t kallistobuild . 
-	docker run -v ${runtime_fullpath}:/data kallistobuild cp kallisto /data
-
-${build_tool}: ${build_output} ${runtime_path}/Dockerfile
-	cd ${runtime_path} && docker build -t computationalgenomicslab/kallisto:0.42.2.1--src--unstable--${git_commit}--${build_number} .
-	docker rmi -f kallistobuild
+build:
+	docker build -t ${name}:${tag} .
+	docker tag -f ${name}:${tag} ${name}:latest
 	touch ${build_tool}
 
-push: all
-	# Requires ~/.dockercfg 
-	docker push computationalgenomicslab/kallisto:0.42.2.1--src--unstable--${git_commit}--${build_number}
+push: build
+	# Requires ~/.dockercfg
+	docker push ${name}:${tag}
+	docker push ${name}:latest
+
+test: build
+	python test.py
+
+clean:
+	-rm ${build_tool}
+	-rm ${build_output}

@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/bin/bash
+set -e
 
 # Fix ownership of output files
 finish() {
@@ -9,5 +10,4 @@ finish() {
 trap finish EXIT
 
 # Call tool with parameters
-java $JAVA_OPTS -jar /opt/gatk/gatk.jar "$@"
-
+cutadapt "$@"

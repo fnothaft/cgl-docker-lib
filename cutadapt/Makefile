@@ -1,11 +1,11 @@
+# Definitions
+runtime_fullpath = $(realpath runtime)
 build_tool = runtime-container.DONE
-git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../ubu | cut -f1 -d " ")
-name = quay.io/ucsc_cgl/ubu
-tag = 1.2--${git_commit}
+git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../cutadapt | cut -f1 -d " ")
+name = quay.io/ucsc_cgl/cutadapt
+tag = 1.9--${git_commit}
 
-build: ${build_tool}
-
-${build_tool}: Dockerfile
+build:
 	docker build -t ${name}:${tag} .
 	docker tag -f ${name}:${tag} ${name}:latest
 	touch ${build_tool}

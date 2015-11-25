@@ -1,7 +1,7 @@
 build_tool = runtime-container.DONE
-git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../ubu | cut -f1 -d " ")
-name = quay.io/ucsc_cgl/ubu
-tag = 1.2--${git_commit}
+git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../snpeff | cut -f1 -d " ")
+name = quay.io/ucsc_cgl/snpeff
+tag = 4.1l--${git_commit}
 
 build: ${build_tool}
 

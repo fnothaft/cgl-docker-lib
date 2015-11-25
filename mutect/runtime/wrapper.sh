@@ -9,5 +9,4 @@ finish() {
 trap finish EXIT
 
 # Call tool with parameters
-java $JAVA_OPTS -jar /opt/gatk/gatk.jar "$@"
-
+java $JAVA_OPTS -jar /opt/mutect/mutect-1.1.7.jar "$@"

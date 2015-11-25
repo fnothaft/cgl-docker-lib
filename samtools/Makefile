@@ -1,10 +1,22 @@
 build_tool = runtime-container.DONE
-build_number ?= none
-git_commit ?= $(shell git rev-parse HEAD)
-nametag = computationalgenomicslab/samtools:0.1.19--deb--unstable--${git_commit}--${build_number}
+git_commit ?= $(shell git log --pretty=oneline -n 1 -- ../samtools | cut -f1 -d " ")
+name = quay.io/ucsc_cgl/samtools
+tag = 1.2--${git_commit}
 
-all: ${build_tool}
+build: ${build_tool}
 
 ${build_tool}: Dockerfile
-	docker build -t ${nametag} .
+	docker build -t ${name}:${tag} .
+	docker tag -f ${name}:${tag} ${name}:latest
 	touch ${build_tool}
+
+push: build
+	# Requires ~/.dockercfg
+	docker push ${name}:${tag}
+	docker push ${name}:latest
+
+test: build
+	python test.py
+
+clean:
+	-rm ${build_tool}
