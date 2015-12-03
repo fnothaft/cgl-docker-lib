@@ -13,4 +13,6 @@ COPY adam /opt/cgl-docker-lib/adam
 COPY apache-spark /opt/cgl-docker-lib/apache-spark
 ENV SPARK_HOME /opt/cgl-docker-lib/apache-spark
 
+COPY bqsr1.sam /home/bqsr1.sam
+
 ENTRYPOINT ["/opt/cgl-docker-lib/adam/bin/adam-submit"]

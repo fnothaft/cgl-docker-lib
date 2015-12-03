@@ -6,9 +6,9 @@ RUN apt-get update && \
   apt-get install -y python libnss3 openjdk-7-jdk wget ssh
 
 # download and unpack archive
-RUN wget https://github.com/amplab/tachyon/releases/download/v0.7.1/tachyon-0.7.1-hadoop2.6-bin.tar.gz
-RUN tar xzvf tachyon-0.7.1-hadoop2.6-bin.tar.gz
-RUN mv tachyon-0.7.1 /opt/tachyon
+RUN wget http://tachyon-project.org/downloads/files/0.8.2/tachyon-0.8.2-bin.tar.gz
+RUN tar xzvf tachyon-0.8.2-bin.tar.gz
+RUN mv tachyon-0.8.2 /opt/tachyon
 
 # set java home
 ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64/
