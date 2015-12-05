@@ -19,7 +19,6 @@ RUN mkdir /opt/apache-hadoop && \
   | tar --strip-components=1 -xzC /opt/apache-hadoop
 
 # check out sequenceiq/hadoop-docker repo
-RUN mkdir /opt/
 WORKDIR /opt/
 RUN git clone https://github.com/sequenceiq/hadoop-docker.git
 RUN cd hadoop-docker && \
