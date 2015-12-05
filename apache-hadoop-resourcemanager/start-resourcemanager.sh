@@ -1,0 +1,22 @@
+#!/bin/bash
+
+HADOOP_PREFIX=/opt/apache-hadoop
+HADOOP_CONF_DIR=${HADOOP_PREFIX}/etc/hadoop
+
+# set up the environment
+$HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
+
+# start sshd
+service sshd start
+
+# start the resource manager
+$HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR start resourcemanager
+
+# start the proxy server
+$HADOOP_YARN_HOME/sbin/yarn-daemon.sh start proxyserver --config $HADOOP_CONF_DIR
+
+# start the job history server
+$HADOOP_PREFIX/sbin/mr-jobhistory-daemon.sh start historyserver --config $HADOOP_CONF_DIR
+
+# follow some logs forever
+tail -f /opt/apache-hadoop/logs/*
