@@ -2,12 +2,13 @@
 
 HADOOP_PREFIX=/opt/apache-hadoop
 HADOOP_CONF_DIR=${HADOOP_PREFIX}/etc/hadoop
+ln -s ${HADOOP_PREFIX} /usr/local/hadoop
 
 # set up the environment
 $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
 
 # start sshd
-service sshd start
+service ssh start
 
 # format the namenode; option is the cluster name
 $HADOOP_PREFIX/bin/hdfs namenode -format $1

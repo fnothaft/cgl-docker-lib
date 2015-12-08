@@ -7,7 +7,7 @@ HADOOP_CONF_DIR=${HADOOP_PREFIX}/etc/hadoop
 $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
 
 # start sshd
-service sshd start
+service ssh start
 
 # start the datanode daemon
 $HADOOP_PREFIX/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs start datanode

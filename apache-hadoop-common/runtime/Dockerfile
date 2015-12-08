@@ -17,7 +17,7 @@ RUN apt-get update && \
     openssh-client
 
 # set java path
-ENV JAVA_HOME /usr/java/default
+ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64/jre/
 ENV PATH $PATH:$JAVA_HOME/bin
 
 # passwordless ssh
@@ -40,9 +40,10 @@ ENV HADOOP_CONF_DIR $HADOOP_PREFIX/etc/hadoop
 ENV YARN_CONF_DIR $HADOOP_PREFIX/etc/hadoop
 
 # rewrite some envars in the hadoop-env script
-RUN sed -i '/^export JAVA_HOME/ s:.*:export JAVA_HOME=/usr/java/default\nexport HADOOP_PREFIX=/opt/apache-hadoop\nexport HADOOP_HOME=/opt/apache-hadoop\n:' $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
+RUN sed -i '/^export JAVA_HOME/ s:.*:export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/jre/\nexport HADOOP_PREFIX=/opt/apache-hadoop\nexport HADOOP_HOME=/opt/apache-hadoop\n:' $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
 RUN sed -i '/^export HADOOP_CONF_DIR/ s:.*:export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop/:' $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
 RUN rm -f $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh.bak
+RUN chmod +x $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
 
 # add conf files
 ADD hadoop-docker/core-site.xml.template $HADOOP_PREFIX/etc/hadoop/core-site.xml.template

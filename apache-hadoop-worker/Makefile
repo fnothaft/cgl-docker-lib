@@ -11,3 +11,7 @@ ${build_tool}: Dockerfile start-worker.sh
 	# build the runtime container
 	docker build -t ${nametag} .
 	touch ${build_tool}
+
+clean:
+	rm -rf ${build_tool}
+	docker rmi -f ${nametag}
