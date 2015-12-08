@@ -7,8 +7,14 @@ ln -s ${HADOOP_PREFIX} /usr/local/hadoop
 # overwrite hostname in conf
 if [ $# -ne 0 ]; then
     sed "s/HOSTNAME/${1}/g" $HADOOP_PREFIX/etc/hadoop/core-site.xml.template > $HADOOP_PREFIX/etc/hadoop/core-site.xml
+    sed -e "s/yarn.nodemanager.aux-services/yarn.resourcemanager.hostname/g" \
+        -e "s/mapreduce_shuffle/${1}/g" \
+        $HADOOP_PREFIX/etc/hadoop/yarn-site.xml.template > $HADOOP_PREFIX/etc/hadoop/yarn-site.xml
 else
-    sed "s/HOSTNAME/localhost/g" $HADOOP_PREFIX/etc/hadoop/core-site.xml.template > $HADOOP_PREFIX/etc/hadoop/core-site.xml    
+    sed "s/HOSTNAME/localhost/g" $HADOOP_PREFIX/etc/hadoop/core-site.xml.template > $HADOOP_PREFIX/etc/hadoop/core-site.xml
+    sed -e "s/yarn.nodemanager.aux-services/yarn.resourcemanager.hostname/g" \
+        -e "s/mapreduce_shuffle/localhost/g" \
+        $HADOOP_PREFIX/etc/hadoop/yarn-site.xml.template > $HADOOP_PREFIX/etc/hadoop/yarn-site.xml
 fi
 
 # set up the environment

@@ -10,6 +10,7 @@ if [ $# -ne 0 ]; then
 else
     sed "s/HOSTNAME/localhost/g" $HADOOP_PREFIX/etc/hadoop/core-site.xml.template > $HADOOP_PREFIX/etc/hadoop/core-site.xml    
 fi
+cp $HADOOP_PREFIX/etc/hadoop/yarn-site.xml.template $HADOOP_PREFIX/etc/hadoop/yarn-site.xml
 
 # set up the environment
 $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
