@@ -2,6 +2,14 @@
 
 HADOOP_PREFIX=/opt/apache-hadoop
 HADOOP_CONF_DIR=${HADOOP_PREFIX}/etc/hadoop
+ln -s ${HADOOP_PREFIX} /usr/local/hadoop
+
+# overwrite hostname in conf
+if [ $# -ne 0 ]; then
+    sed "s/HOSTNAME/${1}/g" $HADOOP_PREFIX/etc/hadoop/core-site.xml.template > $HADOOP_PREFIX/etc/hadoop/core-site.xml
+else
+    sed "s/HOSTNAME/localhost/g" $HADOOP_PREFIX/etc/hadoop/core-site.xml.template > $HADOOP_PREFIX/etc/hadoop/core-site.xml    
+fi
 
 # set up the environment
 $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh

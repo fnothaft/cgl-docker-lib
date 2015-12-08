@@ -15,15 +15,46 @@ You can run this container with the command:
 
 ```
 docker run \
-  -p 50010:50010 \
-  -p 50020:50020 \
+  -p 8020:8020 \
+  -p 8022:8022 \
   -p 50070:50070 \
-  -p 50075:50075 \
-  -p 50090:50090 \
   -p 8030-8033:8030-8033 \
-  -p 8040:8040 \
-  -p 8042:8042 \
   -p 8088:8088 \
+  -p 8090:8090 \
+  -p 10020:10020 \
+  -p 10033:10033 \
+  -p 19888:19888 \
+  -p 19890:19890 \
+  -p 7077:7077 \
+  -p 18080:18080 \
+  -p 18088:18088 \
   --net=host \
-  computationalgenomicslab/apache-hadoop-master:2.6.2
+  computationalgenomicslab/apache-hadoop-master:2.6.2 \
+  <master_ip>
 ```
+
+Testing the container out
+===
+
+When the container boots, you can check to see if the container is up by looking
+at the Hadoop JobTracker interface at `http://<master_ip>:8088`, and the HDFS
+web interface at `http://<master_ip>:50070`.
+
+Once you've got at least one datanode connected, you can put files in HDFS. You
+can get a terminal on the Namenode by running:
+
+```
+docker exec -it <image name/id> /bin/bash
+```
+
+Once you've got this terminal, you can add a simple test file to HDFS by
+running:
+
+```
+root@dev:/# wget cs.berkeley.edu/~massie/bams/mouse_chrM.bam
+root@dev:/# ${HADOOP_HDFS_HOME}/bin/hdfs dfs -put mouse_chrM.bam /mouse_chrM.bam
+root@dev:/# ${HADOOP_HDFS_HOME}/bin/hdfs dfs -ls /mouse_chrM.bam
+```
+
+This file should be visible from the web UI at
+`http://<master_ip>:50070/explorer.html#/`.

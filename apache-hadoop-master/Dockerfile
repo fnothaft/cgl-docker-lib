@@ -11,10 +11,16 @@ MAINTAINER Frank Austin Nothaft, fnothaft@berkeley.edu
 # add script to start hadoop daemons
 ADD start-master.sh .
 
-# expose hdfs ports
-EXPOSE 50010 50020 50070 50075 50090
+# expose namenode ports
+EXPOSE 8020 8022 50070
 
-# expose yarn ports
-EXPOSE 8030 8031 8032 8033 8040 8042 8088
+# expose resourcemanager ports
+EXPOSE 8030-8033 8088 8090
+
+# expose history server ports
+EXPOSE 10020 10033 19888 19890
+
+# expose spark master ports
+EXPOSE 7077 18080 18088
 
 ENTRYPOINT ["bash", "+x", "start-master.sh"]

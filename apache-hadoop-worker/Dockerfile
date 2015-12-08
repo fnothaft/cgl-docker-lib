@@ -11,13 +11,13 @@ MAINTAINER Frank Austin Nothaft, fnothaft@berkeley.edu
 # add script to start hadoop daemons
 ADD start-worker.sh .
 
-# expose hdfs ports
-EXPOSE 50010 50020 50070 50075 50090
+# expose datanode ports
+EXPOSE 50010 50020 50075 50475
 
-# expose mapred ports
-EXPOSE 19888
+# expose nodemanager ports
+EXPOSE 8040-8042 8044
 
-# expose yarn ports
-EXPOSE 8030 8031 8032 8033 8040 8042 8088
+# expose spark worker ports
+EXPOSE 7078 18081
 
 ENTRYPOINT ["bash", "+x", "start-worker.sh"]
