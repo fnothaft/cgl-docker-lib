@@ -11,7 +11,7 @@ class TestADAMPipeline(unittest.TestCase):
 
         # get working directory
         pwd = os.getcwd()
-        outfile = '%s/test/outdir/small.processed.bam' % pwd
+        outfile = '%s/test/small.processed.bam' % pwd
 
         # check for output file in ./test and clean if necessary
         if os.path.exists(outfile):
@@ -23,22 +23,46 @@ class TestADAMPipeline(unittest.TestCase):
         args = ['python', '/opt/adam-pipeline/wrapper.py',
                 '--sample', '/%s/test/small.sam' % pwd,
                 '--known-sites', '/%s/test/small.vcf' % pwd,
-                '--output', '/%s/test/outdir/small.processed.bam' % pwd,
+                '--output', '/%s/test/small.processed.bam' % pwd,
                 '--memory', '1']
-        mounts = ['-v', '/%s/test/small.sam:/%s/test/small.sam' % (pwd, pwd),
-                  '-v', '/%s/test/small.vcf:/%s/test/small.vcf' % (pwd, pwd),
-                  '-v', '/%s/test/outdir:/%s/test/outdir' % (pwd, pwd),]
+        mounts = ['-v', '/%s/test:/%s/test' % (pwd, pwd)]
 
         # Check base call for help menu
-        print (base + tool)
         out = subprocess.check_output(base + tool)
         self.assertTrue('Please see the complete documentation' in out)
 
         # run full command on sample inputs and check for existence of output file
-        print (base + mounts + tool + [" ".join(args)])
-        subprocess.check_call(base + mounts + tool + [" ".join(args)])
+        cmd = base + mounts + tool + args
+        import sys
+        print >> sys.stderr, cmd
+        print >> sys.stderr, " ".join(cmd)
+        out = subprocess.check_output(base + mounts + tool + [" ".join(args)])
+        print >> sys.stderr, out
         self.assertTrue(os.path.exists(outfile))
 
+
+    @unittest.skipIf("CROMWELL_HOME" not in os.environ,
+                     "Path to cromwell not defined by $CROMWELL_HOME")
+    def test_wdl_call():
+
+        # get working directory
+        pwd = os.getcwd()
+        outfile = '%s/test/outdir/small.processed.bam' % pwd
+
+        # check for output file in ./test and clean if necessary
+        if os.path.exists(outfile):
+            os.remove(outfile)
+
+        # set up cromwell args
+        cmd = ["%s/cromwell" % os.environ["CROMWELL_HOME"],
+               "run",
+               "%s/workflow.wdl" % pwd,
+               "%s/workflow.json" % pwd]
+
+        # run cromwell
+        subprocess.check_call(cmd)
+        self.assertTrue(os.path.exists(outfile))
+        
 
 if __name__ == '__main__':
     unittest.main()

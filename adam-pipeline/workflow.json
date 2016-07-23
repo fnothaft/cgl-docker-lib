@@ -1,6 +1,0 @@
-{
-  "wf.adam.in": "/Users/boconnor/Development/gitroot/BD2KGenomics/cgl-docker-lib/adam-pipeline/test/small.sam",
-  "wf.adam.knownSites": "/Users/boconnor/Development/gitroot/BD2KGenomics/cgl-docker-lib/adam-pipeline/test/small.vcf",
-  "wf.adam.mem": "1",
-  "wf.adam.out": "/Users/boconnor/Development/gitroot/BD2KGenomics/cgl-docker-lib/adam-pipeline/test/outdir/small.processed.bam"
-}
