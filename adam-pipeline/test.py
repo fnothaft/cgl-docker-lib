@@ -8,7 +8,7 @@ import unittest
 class TestADAMPipeline(unittest.TestCase):
 
     def test_docker_call(self):
-        
+
         # get working directory
         pwd = os.getcwd()
         outfile = '%s/test/outdir/small.processed.bam' % pwd
@@ -20,7 +20,8 @@ class TestADAMPipeline(unittest.TestCase):
         # build commandline
         tool = ['quay.io/ucsc_cgl/adam-pipeline']
         base = ['docker', 'run']
-        args = ['--sample', '/%s/test/small.sam' % pwd,
+        args = ['python', '/opt/adam-pipeline/wrapper.py',
+                '--sample', '/%s/test/small.sam' % pwd,
                 '--known-sites', '/%s/test/small.vcf' % pwd,
                 '--output', '/%s/test/outdir/small.processed.bam' % pwd,
                 '--memory', '1']
@@ -29,11 +30,13 @@ class TestADAMPipeline(unittest.TestCase):
                   '-v', '/%s/test/outdir:/%s/test/outdir' % (pwd, pwd),]
 
         # Check base call for help menu
+        print (base + tool)
         out = subprocess.check_output(base + tool)
         self.assertTrue('Please see the complete documentation' in out)
 
         # run full command on sample inputs and check for existence of output file
-        subprocess.check_call(base + mounts + tool + args)
+        print (base + mounts + tool + [" ".join(args)])
+        subprocess.check_call(base + mounts + tool + [" ".join(args)])
         self.assertTrue(os.path.exists(outfile))
 
 
