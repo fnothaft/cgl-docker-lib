@@ -28,7 +28,7 @@ SUFFIX=$7
 extras=$8
 
 #choose how to log time
-Time=/usr/bin/time
+Time=
 
 # generate a gvcf
 $Time java $RAM \
