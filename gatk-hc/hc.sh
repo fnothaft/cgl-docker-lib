@@ -65,11 +65,6 @@ $Time java $RAM \
     -stand_call_conf 30.0 \
     ${extras}
 
-# these are our hard filters
-# there are many like them, but these are ours
-snp_filter="QD < 2.0 || FS > 60.0 || MQ < 40.0 || MQRankSum < -12.5 || ReadPosRankSum < -8.0"
-indel_filter="QD < 2.0 || FS > 200.0 || ReadPosRankSum < -20.0"
-
 # select snps
 $Time java $RAM \
     -jar /opt/gatk/gatk.jar \
@@ -84,12 +79,11 @@ $Time java $RAM \
 # filter snps
 $Time java $RAM \
     -jar /opt/gatk/gatk.jar \
-    -nt $THREADS \
     -R ${dir}/${ref} \
-    -T FilterVariants \
+    -T VariantFiltration \
     -V ${dir}/${project}/analysis/${INPUT1}${SUFFIX}.snps.unfiltered.vcf \
     -o ${dir}/${project}/analysis/${INPUT1}${SUFFIX}.snps.vcf \
-    --filterExpression ${snp_filter} \
+    --filterExpression "QD < 2.0 || FS > 60.0 || MQ < 40.0 || MQRankSum < -12.5 || ReadPosRankSum < -8.0" \
     --filterName SNP_HARD_FILTER \
     ${extras}
 
@@ -107,11 +101,10 @@ $Time java $RAM \
 # filter indels
 $Time java $RAM \
     -jar /opt/gatk/gatk.jar \
-    -nt $THREADS \
     -R ${dir}/${ref} \
-    -T FilterVariants \
+    -T VariantFiltration \
     -V ${dir}/${project}/analysis/${INPUT1}${SUFFIX}.indels.unfiltered.vcf \
     -o ${dir}/${project}/analysis/${INPUT1}${SUFFIX}.indels.vcf \
-    --filterExpression ${indel_filter} \
+    --filterExpression "QD < 2.0 || FS > 200.0 || ReadPosRankSum < -20.0" \
     --filterName INDEL_HARD_FILTER \
     ${extras}
