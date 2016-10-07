@@ -31,7 +31,7 @@ extras=$8
 Time=
 
 # generate a gvcf
-$Time java $RAM \
+$Time java $RAM $JAVA_OPTS \
     -jar /opt/gatk/gatk.jar \
     -nct $THREADS \
     -R ${dir}/${ref} \
@@ -54,7 +54,7 @@ $Time java $RAM \
     ${extras}
 
 # genotype the gvcf
-$Time java $RAM \
+$Time java $RAM $JAVA_OPTS \
     -jar /opt/gatk/gatk.jar \
     -nt $THREADS \
     -R ${dir}/${ref} \
@@ -66,7 +66,7 @@ $Time java $RAM \
     ${extras}
 
 # select snps
-$Time java $RAM \
+$Time java $RAM $JAVA_OPTS \
     -jar /opt/gatk/gatk.jar \
     -nt $THREADS \
     -R ${dir}/${ref} \
@@ -77,7 +77,7 @@ $Time java $RAM \
     ${extras}
 
 # filter snps
-$Time java $RAM \
+$Time java $RAM $JAVA_OPTS \
     -jar /opt/gatk/gatk.jar \
     -R ${dir}/${ref} \
     -T VariantFiltration \
@@ -88,7 +88,7 @@ $Time java $RAM \
     ${extras}
 
 # select indels
-$Time java $RAM \
+$Time java $RAM $JAVA_OPTS \
     -jar /opt/gatk/gatk.jar \
     -nt $THREADS \
     -R ${dir}/${ref} \
@@ -99,7 +99,7 @@ $Time java $RAM \
     ${extras}
 
 # filter indels
-$Time java $RAM \
+$Time java $RAM $JAVA_OPTS \
     -jar /opt/gatk/gatk.jar \
     -R ${dir}/${ref} \
     -T VariantFiltration \
