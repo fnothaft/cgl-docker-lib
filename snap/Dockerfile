@@ -1,13 +1,15 @@
-FROM ubuntu:14.04
+FROM ubuntu
 
-RUN apt-get update && \
-  apt-get install -y python libnss3 wget
+RUN apt-get update && apt-get install -y git build-essential zlib1g-dev
 
-# Download SNAP binary
-RUN mkdir /opt/SNAP
-WORKDIR /opt/SNAP
-RUN wget http://snap.cs.berkeley.edu/downloads/snap-beta.18-linux.tar.gz
-RUN tar xzvf snap-beta.18-linux.tar.gz
-RUN chmod +x snap-aligner
+# clone snap
+WORKDIR /opt/
+RUN git clone https://github.com/amplab/snap.git
+WORKDIR /opt/snap
+RUN git checkout 48e7ae5d38145c094af1fe42a4b3abf1e72e1bb7
 
-ENTRYPOINT ["/opt/SNAP/snap-aligner"]
+# build snap
+WORKDIR /opt/snap/
+RUN make
+
+ENTRYPOINT ["/opt/snap/snap-aligner"]
